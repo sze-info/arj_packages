@@ -15,7 +15,7 @@ git clone https://github.com/sze-info/arj_packages
 ### Build ROS 2 packages
 ``` r
 cd ~/ros2_ws
-colcon build --packages-select arj_transforms_cpp
+colcon build --packages-select arj_intro_cpp arj_transforms_cpp
 ```
 
 Don't forget to `source` before ROS commands.
@@ -25,3 +25,4 @@ source ~/ros2_ws/install/local_setup.bash
 ```
 
 ![transforms01](arj_transforms_cpp/img/transforms01.gif)
+![turtlesim02](https://raw.githubusercontent.com/sze-info/arj/main/docs/bevezetes/turtlesim02.gif)
