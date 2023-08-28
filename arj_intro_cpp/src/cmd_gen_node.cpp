@@ -17,6 +17,8 @@ public:
         timer_ = this->create_wall_timer(std::chrono::milliseconds(200), std::bind(&CmdGen::loop, this));  
         // /turtle1/cmd_vel plublisher
         cmd_pub_ = this->create_publisher<geometry_msgs::msg::Twist>("/turtle1/cmd_vel", 10);
+        RCLCPP_INFO(this->get_logger(), "cmd_gen_node [arj_intro_cpp] has been started");
+
     }
 
 private:

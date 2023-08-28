@@ -1,5 +1,6 @@
 # `arj_intro_cpp` ROS 2 package
 
+A `arj_intro_cpp` is the C++ equivalent package of `arj_intro_py`.
 
 ## Build this ROS 2 package
 ``` r
