@@ -15,7 +15,7 @@ git clone https://github.com/sze-info/arj_packages
 ### Build ROS 2 packages
 ``` r
 cd ~/ros2_ws
-colcon build --packages-select arj_intro_cpp arj_intro_py arj_transforms_cpp arj_simple_perception
+colcon build --packages-select arj_intro_cpp arj_intro_py arj_transforms_cpp arj_transforms_py arj_simple_perception
 ```
 
 Don't forget to `source` before ROS commands.
