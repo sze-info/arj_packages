@@ -26,3 +26,4 @@ source ~/ros2_ws/install/local_setup.bash
 
 ![transforms01](arj_transforms_cpp/img/transforms01.gif)
 ![turtlesim02](https://raw.githubusercontent.com/sze-info/arj/main/docs/bevezetes/turtlesim02.gif)
+![simple_filter01](arj_simple_perception/img/simple_filter01.gif)

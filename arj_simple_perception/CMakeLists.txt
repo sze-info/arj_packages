@@ -5,12 +5,14 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
+## Compile as C++17 and with optimization level O2
+add_compile_options(-std=c++17 -O2)
+
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
-find_package(nav_msgs REQUIRED)
 find_package(visualization_msgs REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_msgs REQUIRED)
@@ -26,8 +28,8 @@ find_package(pcl_conversions REQUIRED)
 include_directories(
   include
   SYSTEM
-  ${PCL_COMMON_INCLUDE_DIRS}
-  ${PCL_INCLUDE_DIRS}
+  #${PCL_COMMON_INCLUDE_DIRS}
+  #${PCL_INCLUDE_DIRS}
 )
 
 set(ament_dependencies
@@ -35,7 +37,6 @@ set(ament_dependencies
   rclcpp
   std_msgs
   sensor_msgs
-  nav_msgs
   visualization_msgs
   tf2
   tf2_msgs
@@ -47,6 +48,10 @@ set(ament_dependencies
 add_executable(lidar_filter_simple src/lidar_filter_simple.cpp)
 target_link_libraries(lidar_filter_simple ${PCL_LIBRARIES})
 ament_target_dependencies(lidar_filter_simple  ${ament_dependencies} )
+
+add_executable(lidar_filter_simple_param src/lidar_filter_simple_param.cpp)
+target_link_libraries(lidar_filter_simple_param ${PCL_LIBRARIES})
+ament_target_dependencies(lidar_filter_simple_param  ${ament_dependencies} )
 
 
 if(BUILD_TESTING)
@@ -60,8 +65,13 @@ if(BUILD_TESTING)
   set(ament_cmake_cpplint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
 endif()
+install(DIRECTORY 
+  launch
+  config
+  DESTINATION share/${PROJECT_NAME})
 install(TARGETS
   lidar_filter_simple
+  lidar_filter_simple_param
 
   DESTINATION lib/${PROJECT_NAME})
 
