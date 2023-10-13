@@ -17,20 +17,12 @@ public:
     VehicleModel() : Node("vehicle_model")
     {
         timer_ = this->create_wall_timer(std::chrono::milliseconds(200), std::bind(&VehicleModel::loop, this));  
-        // /turtle1/cmd_vel plublisher
-        pose_pub_ = this->create_publisher<geometry_msgs::msg::Pose>("/vehicle/current_pose", 10);
         state_pub_ = this->create_publisher<std_msgs::msg::Float32MultiArray>("/vehicle/state", 10);
         cmd_sub_ = this->create_subscription<std_msgs::msg::Float32>("/vehicle/propulsion", 10,  std::bind(&VehicleModel::propulsion_callback, this, std::placeholders::_1));
         RCLCPP_INFO(this->get_logger(), "vehicle_model has been started");
     }
 
 private:
-
-    // local vehicle pose quantities
-    float X {0.0f};
-    float Y {0.0f};
-    float theta {0.0f};
-
     // input command
     float Fprop {0.0f};
 
@@ -48,8 +40,6 @@ private:
     float rho {1.0f}; // kg/m^3
     float c {0.33f}; // aerodynamic factor
     float b {0.1f}; // rolling friction, viscosous
-
-
 
     void propulsion_callback(const std_msgs::msg::Float32 input_msg)
     {
@@ -72,17 +62,8 @@ private:
 
         state_msg.data = state;
         state_pub_->publish(state_msg);
-
-
-        // Publish pose
-        auto pose_msg = geometry_msgs::msg::Pose();
-    
-        pose_msg.position.x = 1.0;
-        pose_msg.position.y = 0.0;
-        pose_pub_->publish(pose_msg);
     }
     rclcpp::TimerBase::SharedPtr timer_;
-    rclcpp::Publisher<geometry_msgs::msg::Pose>::SharedPtr pose_pub_;
     rclcpp::Publisher<std_msgs::msg::Float32MultiArray>::SharedPtr state_pub_;
     rclcpp::Subscription<std_msgs::msg::Float32>::SharedPtr cmd_sub_;
 
