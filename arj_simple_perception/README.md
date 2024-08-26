@@ -19,7 +19,14 @@ ros2 run arj_simple_perception lidar_filter_simple
 ros2 run arj_simple_perception lidar_filter_simple_param
 ros2 launch arj_simple_perception run_rviz1.launch.py
 ros2 launch arj_simple_perception run_all.launch.py
+ros2 launch arj_simple_perception filter_a.launch.py  \
+    cloud_topic:=/lexus3/os_center/points \
+    cloud_frame:=lexus3/os_center_a_laser_data_frame
 ```
+
+> [!NOTE]  
+> Note that `cloud_frame` is optional and defaults to the frame of the input point cloud.
+
 
 ## Remarks
 
