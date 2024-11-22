@@ -20,6 +20,7 @@ find_package(tf2_ros REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
 find_package(PCL REQUIRED)
 find_package(pcl_conversions REQUIRED) 
+find_package(rclcpp_components REQUIRED)
 
 # uncomment the following section in order to fill in
 # further dependencies manually.
@@ -43,15 +44,26 @@ set(ament_dependencies
   tf2_ros
   tf2_geometry_msgs  
   PCL
+  rclcpp_components
 )
 
 add_executable(lidar_filter_simple src/lidar_filter_simple.cpp)
 target_link_libraries(lidar_filter_simple ${PCL_LIBRARIES})
 ament_target_dependencies(lidar_filter_simple  ${ament_dependencies} )
 
+
 add_executable(lidar_filter_simple_param src/lidar_filter_simple_param.cpp)
 target_link_libraries(lidar_filter_simple_param ${PCL_LIBRARIES})
 ament_target_dependencies(lidar_filter_simple_param  ${ament_dependencies} )
+
+add_library(lidar_filter_simple_param_composable SHARED  src/lidar_filter_simple_param_composable.cpp)
+target_link_libraries(lidar_filter_simple_param_composable ${PCL_LIBRARIES})
+ament_target_dependencies(lidar_filter_simple_param_composable ${ament_dependencies})
+rclcpp_components_register_nodes(lidar_filter_simple_param_composable
+PLUGIN "LidarFilterSimple"
+EXECUTABLE lidar_filter_simple_param_composable)
+
+
 
 
 if(BUILD_TESTING)
@@ -72,7 +84,12 @@ install(DIRECTORY
 install(TARGETS
   lidar_filter_simple
   lidar_filter_simple_param
+)
 
-  DESTINATION lib/${PROJECT_NAME})
-
+ament_export_targets(export_lidar_filter_simple_param_composable)
+install(TARGETS lidar_filter_simple_param_composable
+        EXPORT export_lidar_filter_simple_param_composable
+        ARCHIVE DESTINATION lib
+        LIBRARY DESTINATION lib
+        RUNTIME DESTINATION bin)
 ament_package()
